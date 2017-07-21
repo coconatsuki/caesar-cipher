@@ -4,28 +4,45 @@ class Caesar
     @sentence = ""
     @shift = 0
     puts "What's your secret message ?"
-    @sentence = gets.chomp
-    puts "What's your shift ? Give me a positive number".
-    @shift = gets.chomp
-    launch(@sentence, @shift)
+    questions
   end
 
-  def launch (sentence, shift)
+  private
+
+  def questions
+    @sentence = gets.chomp
+    puts "\nWhat's your shift ? Give me a positive number."
+    @shift = gets.chomp.to_i
+    checking(@shift)
+  end
+
+  def display (sentence, shift)
     @sentence_to_code = sentence.chars
     shift.times do
       ciphering(@sentence_to_code)
       end
-    print @sentence_to_code.join
+    puts "\nThis is your ciphered message : '#{@sentence_to_code.join}'"
+    puts "_______________________________________"
+    puts "\nDo you have an other secret message ?\n\n"
+    questions
   end
 
-  private
+  def checking(num)
+    if num < 1 then
+      puts "\nYou made a mistake. Please give me a positive number."
+      @shift = gets.chomp.to_i
+      checking(@shift)
+    else
+      display(@sentence, @shift)
+    end
+  end
 
   def ciphering(test)
     test.map! do |c|
       case c
       when "z" then c = "a"
       when "Z" then c = "A"
-      when /[a-y]/ then c.next
+      when /[a-yA-Y0-9]/ then c.next
       else c
       end
     end
@@ -35,4 +52,4 @@ end
 
 caesar = Caesar.new
 
-caesar.launch
+caesar
