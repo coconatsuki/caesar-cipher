@@ -15,16 +15,22 @@ class Caesar
     launch_ciphering
   end
 
+  def cipher(sentence, shift)
+    shift.times do
+      sentence = @method.ciphering(sentence)
+    end
+    sentence
+  end
+
   private
 
   def launch_ciphering
     get_variables
     checking(@shift)
-    @shift.times do
-      @sentence = @method.ciphering(@sentence)
-    end
+    @sentence = cipher(@sentence, @shift)
     display(@sentence)
   end
+
 
   def get_variables
     @sentence = gets.chomp
